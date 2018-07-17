@@ -18,7 +18,7 @@ class Transaksi extends Model
 
     public function detail_perawatan()
     {
-        return $this->hasMany('App\Detail_perawatan','pesanan_id', 'id');
+        return $this->hasMany('App\DetailPerawatan','pesanan_id', 'id');
     }
 }
 
