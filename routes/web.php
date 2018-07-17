@@ -31,4 +31,11 @@ Route::group(['middleware'=>'auth'], function()
 	Route::get('/user/activated/{id}/{status}', 'UserController@activated_account');
 	Route::get('/user/destroy/{id}', 'UserController@destroy');
 	Route::get('/user/show/{id}', 'UserController@show');
+
+	Route::get('/service', 'ServiceController@index');
+	Route::get('/service/destroy/{id}', 'ServiceController@destroy');
+	Route::get('/service/show', 'ServiceController@show');
+	Route::post('/service/update', 'ServiceController@update');
+	Route::get('/service/new', 'ServiceController@new');
+	Route::post('service/input', 'ServiceController@input');
 });

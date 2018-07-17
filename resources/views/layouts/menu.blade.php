@@ -41,7 +41,7 @@
         </a>
         <ul class="ml-menu">
             <li>
-                <a href="{!! route('pelanggan.create') !!}">
+                <a href="{{url('/service')}}">
                     <span>Service</span>
                 </a>
             </li>
