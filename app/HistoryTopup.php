@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class History_topup extends Model
+class HistoryTopup extends Model
 {
     protected $table = 'history_topups';
     protected $fillable = [
@@ -13,7 +13,7 @@ class History_topup extends Model
 
     public function pelanggan()
     {
-        return $this->belongsTo('App\Pelanggan','pelanggan_id');
+        return $this->belongsTo('App\Pelanggan','pelanggan_id', 'id');
     }
 
 }

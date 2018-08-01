@@ -26,6 +26,8 @@ class PelangganController extends Controller
     	$pelanggan->user_id = $request->user_id;
     	$pelanggan->alamat = $request->alamat;
     	$pelanggan->telepon = $request->telepon;
+        $pelanggan->saldo = 0;
+        $pelanggan->reg_date = now()->toDateString();
     	$pelanggan->save();
 
     	return redirect(route('pelanggan.index'));

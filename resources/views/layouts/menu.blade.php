@@ -28,7 +28,7 @@
                 </a>
             </li>
             <li>
-                <a href="javascript:void(0);">
+                <a href="{{url('/topup')}}">
                     <span>Top Up</span>
                 </a>
             </li>
@@ -46,22 +46,22 @@
                 </a>
             </li>
             <li>
-                <a href="{!! route('pelanggan.index') !!}">
+                <a href="{{url('/paket')}}">
                     <span>Package</span>
                 </a>
             </li>
             <li>
-                <a href="javascript:void(0);">
+                <a href="{{url('/diskon')}}">
                     <span>Discount</span>
                 </a>
             </li>
             <li>
-                <a href="javascript:void(0);">
+                <a href="{{url('/ruangan')}}">
                     <span>Room</span>
                 </a>
             </li>
             <li>
-                <a href="javascript:void(0);">
+                <a href="{{url('/therapist')}}">
                     <span>Therapist</span>
                 </a>
             </li>

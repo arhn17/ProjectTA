@@ -10,5 +10,15 @@ class DetailPaket extends Model
     protected $fillable = [
         'paket_id', 'service_id'
     ];
+
+    public function paket ()
+    {
+    	return $this->belongsTo('App\Paket', 'paket_id', 'id');
+    }
+
+    public function service ()
+    {
+    	return $this->belongsTo('App\Service', 'service_id', 'id');
+    }
 }
 

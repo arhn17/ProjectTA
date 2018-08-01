@@ -7,7 +7,6 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>Sistem Transaksi Salon</title>
     <!-- Favicon-->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <!-- Google Fonts -->
     <link href="{{ url('template/css/font-family.css') }}" rel="stylesheet">
     <link href="{{ url('template/css/material-icon.css') }}" rel="stylesheet">
@@ -79,6 +78,7 @@
     <section class="content">
         @yield('content')
     </section>
+    @yield('script')
 
     <!-- Jquery Core Js -->
     <script src="{{ url('template/plugins/jquery/jquery.min.js') }}"></script>
@@ -133,7 +133,6 @@
     <!-- Demo Js -->
     <script src="{{ url('template/js/demo.js') }}"></script>
 
-    @yield('script')
 </body>
 
 </html>

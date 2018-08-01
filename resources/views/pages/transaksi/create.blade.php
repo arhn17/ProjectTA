@@ -9,7 +9,7 @@
             {!! Form::open(['route' => 'transaksi.store', 'method' => 'post'] ) !!}
             
             <div class="card-header">
-                <i class="fa fa-align-justify"></i> <h4>Tambah Transaksi</h4><br>
+                <i class="fa fa-align-justify"></i> <h4>Transaction Management</h4><br>
             </div>
             
             <div class="card-body">
@@ -19,8 +19,7 @@
             </div>
             
             <div class="card-footer">
-                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Simpan</button>
-                <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-dot-circle-o"></i> Save</button>
             </div>
             
             {{ Form::close() }}

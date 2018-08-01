@@ -60,7 +60,7 @@
 
                     <div class="row clearfix">
                         <div class="col-md-6">
-                            <label for="email">Member Fee</label>    
+                            <label for="email">Member Price</label>    
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="number" name="member_fee" class="form-control">
@@ -68,7 +68,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="email">Normal Fee</label>    
+                            <label for="email">Normal Price</label>    
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="number" name="normal_fee" class="form-control">

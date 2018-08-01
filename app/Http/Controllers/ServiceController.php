@@ -90,4 +90,9 @@ class ServiceController extends Controller
 		$new_service = Service::InsertGetId($array_to_input);
 		return redirect('service');
 	}
+
+	public function get_all ()
+	{
+		return Service::all();
+	}
 }
