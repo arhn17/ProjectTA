@@ -8,6 +8,7 @@
         <div class="body">
             <form method="post" action="{{url('/transaksi/update')}}">
                 @csrf
+                <input type="text" name="transaksi_id" value="{{$transaksi->id}}" hidden readonly>
             
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> <h4>Transaction Management</h4><br>
@@ -19,7 +20,7 @@
                             <label for="email_address">Coustumer</label>
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" class="form-control" value="{{$transaksi->pelanggan->user->name}}" readonly>
+                                    <input type="text" class="form-control" value="{{$transaksi->pelanggan->id}} - {{$transaksi->pelanggan->nama}}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -39,12 +40,12 @@
                     </div>
                     <div class="row clearfix">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <label for="email_address">Category</label>
+                            <label for="email_address">Status</label>
                             <div class="form-group">
                                 <div class="form-line">
-                                    <select name="category" class="form-control show-tick">
-                                        <option value="0" @if($transaksi->kategori == 0) selected @endif>0</option>
-                                        <option value="1" @if($transaksi->kategori == 1) selected @endif>1</option>
+                                    <select name="status" class="form-control show-tick">
+                                        <option value="1" @if($transaksi->status == 1) selected @endif>Pending</option>
+                                        <option value="0" @if($transaksi->status == 0) selected @endif>Booking</option>
                                     </select>
                                 </div>
                             </div>

@@ -62,6 +62,8 @@ $(function () {
             return form.valid();
         },
         onFinished: function (event, currentIndex) {
+            alert(1)
+            // location.reload()
             swal("Good job!", "Submitted!", "success");
         }
     });

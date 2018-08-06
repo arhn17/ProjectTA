@@ -18,14 +18,14 @@ class TransaksiController extends Controller
 {
      public function index()
     {
-    	$transaksis = Transaksi::with('user', 'detail_perawatan', 'pelanggan', 'pelanggan.user', 'diskon')->get();
+    	$transaksis = Transaksi::with('user', 'detail_perawatan', 'pelanggan', 'pelanggan.user', 'diskon')->orderby('id', 'desc')->get();
         //dd($transaksis);
     	return view('pages.transaksi.index',compact('transaksis'));
     }
 
     public function create()
     {
-        $data['pelanggan'] = Pelanggan::with('user')->get();
+        $data['pelanggan'] = Pelanggan::with('user')->where('user_id', '!=', 1)->get();
         $data['diskon'] = Diskon::all();
 
     	return view('pages.transaksi.create', $data);
@@ -36,15 +36,18 @@ class TransaksiController extends Controller
         $user = Auth::user();
         $service = $request->input('service');
         $package = $request->input('package');
-        $coustumer = $request->input('pelanggan_id');
         $diskon = $request->input('diskon');
+        $coustumer_role = $request->input('coustumer_role');
+        $coustumer_name = $request->input('coustumer_name');
+        $telepon = $request->input('telepon');
+        $address = $request->input('address');
         $fee = 0;
 
         if ($service != null) {
             foreach ($service as $key => $value) {
                 $service_detail = Service::where('id', $value)->first();
                 
-                if ($coustumer == 1) $fee += $service_detail->tarif_normal;
+                if ($coustumer_role == 1) $fee += $service_detail->tarif_normal;
                 else $fee += $service_detail->tarif_member;
             }
         }
@@ -53,7 +56,7 @@ class TransaksiController extends Controller
             foreach ($package as $key => $value) {
                 $package_detail = Paket::where('id', $value)->first();
                 
-                if ($coustumer == 1) $fee += $package_detail->tarif_normal;
+                if ($coustumer_role == 1) $fee += $package_detail->tarif_normal;
                 else $fee += $package_detail->tarif_member;
             }
         }
@@ -63,12 +66,22 @@ class TransaksiController extends Controller
             $fee = $fee - (($fee * $get_diskon->nilai) / 100);
         }*/
 
+        if ($coustumer_role == 0) {
+            $coustumer = Pelanggan::insertGetId([
+                            'user_id' => 1,
+                            'nama' => $coustumer_name,
+                            'alamat' => $address,
+                            'telepon' =>$telepon
+                        ]);
+        }
+        else $coustumer = $request->input('pelanggan_id');
+
         $transaksi_id = Transaksi::insertGetId([
                             'pelanggan_id' => $coustumer,
                             'user_id' => $user->id,
                             'durasi' => $request->input('duration'),
                             'total' => $fee,
-                            'status' => 0,
+                            'status' => $request->input('status'),
                             'diskon_id' => $diskon,
                             'created_at' => now()
                         ]);
@@ -102,8 +115,7 @@ class TransaksiController extends Controller
                     'transaksi_id' => $transaksi_id,
                     'therapist_id' => $var_therapist,
                     'service_id' => $value,
-                    'ruangan_id' => $var_room,
-                    'paket_id' => 0
+                    'ruangan_id' => $var_room
                 ]);
             }
         }
@@ -176,5 +188,92 @@ class TransaksiController extends Controller
         DetailPerawatan::where('transaksi_id', $transaksi_id)->where('paket_id', null)->where('service_id', $service_id)->delete();
 
         return redirect('/transaksi/edit/'. $transaksi_id);
+    }
+
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+        $service = $request->input('service');
+        $package = $request->input('package');
+        $coustumer = $request->input('pelanggan_id');
+        $diskon = $request->input('diskon');
+        $transaksi_id = $request->input('transaksi_id');
+        $fee = 0;
+
+        if ($service != null) {
+            foreach ($service as $key => $value) {
+                $service_detail = Service::where('id', $value)->first();
+                
+                if ($coustumer == 1) $fee += $service_detail->tarif_normal;
+                else $fee += $service_detail->tarif_member;
+            }
+        }
+
+        if ($package != null) {
+            foreach ($package as $key => $value) {
+                $package_detail = Paket::where('id', $value)->first();
+                
+                if ($coustumer == 1) $fee += $package_detail->tarif_normal;
+                else $fee += $package_detail->tarif_member;
+            }
+        }
+
+        $transaksi = Transaksi::where('id', $transaksi_id)->first();
+
+        $fee += $transaksi->total;
+
+        Transaksi::where('id', $transaksi_id)->update([
+                                                    'pelanggan_id' => $transaksi->pelanggan_id,
+                                                    'user_id' => $user->id,
+                                                    'durasi' => $request->input('duration'),
+                                                    'total' => $fee,
+                                                    'status' => $request->input('status'),
+                                                    'diskon_id' => $diskon,
+                                                    'updated_at' => now()
+                                                ]);
+
+        if ($package != null) {
+            foreach ($package as $key => $value) {
+                $var_service = $request->input('package_service'.$key);
+                $var_therapist = $request->input('therapist_service_package'.$key);
+                $var_room = $request->input('ruangan_service_package'.$key);
+
+                if ($var_service != null) {
+                    foreach ($var_service as $keys => $values) {
+                        DetailPerawatan::insertGetId([
+                            'transaksi_id' => $transaksi_id,
+                            'therapist_id' => $var_therapist[$keys],
+                            'service_id' => $values,
+                            'ruangan_id' => $var_room[$keys],
+                            'paket_id' => $value
+                        ]);
+                    }
+                }
+            }
+        }
+
+        if ($service != null) {
+            foreach ($service as $key => $value) {
+                $var_therapist = $request->input('therapist_service_package'.$key);
+                $var_room = $request->input('ruangan_service_package'.$key);
+
+                DetailPerawatan::insertGetId([
+                    'transaksi_id' => $transaksi_id,
+                    'therapist_id' => $var_therapist,
+                    'service_id' => $value,
+                    'ruangan_id' => $var_room
+                ]);
+            }
+        }
+
+        return redirect(route('transaksi.index')); 
+    }
+
+    public function detail ($id)
+    {
+        $data['transaksi'] = Transaksi::with('pelanggan')->where('id', $id)->first();
+        $data['package'] = DetailPerawatan::with('paket', 'service')->where('transaksi_id', $id)->where('paket_id', '!=', null)->get();
+        $data['service'] = DetailPerawatan::with('service')->where('transaksi_id', $id)->where('paket_id', '=', null)->get();
+        return view('pages.transaksi.detail', $data);
     }
 }

@@ -18,12 +18,12 @@
 			<table class="table table-bordered table-striped table-hover js-basic-example dataTable">
 				<thead>
 					<tr>
-						<th class="text-center">No</th>
+						<th class="text-center" width="1%">No</th>
                     	<th class="text-center">Pelanggan</th>
                     	<th class="text-center">Diskon</th>
                     	<th class="text-center">Total</th>
                         <th class="text-center">Status</th>
-                        <th class="text-center">Aksi</th>
+                        <th class="text-center" width="20%">Aksi</th>
                     </tr>
 				</thead>
 				<tbody>
@@ -31,9 +31,9 @@
 					@foreach($transaksis as $transaksi)
 						<tr>
                             <td class="text-center" width="1%">{{ $no }}</td>
-							<td class="text-center">{!! $transaksi->pelanggan->user->name !!}</td>
+							<td class="text-center">{!! $transaksi->pelanggan->nama !!}</td>
 							<td class="text-center">@if($transaksi->diskon != null) {!! $transaksi->diskon->nilai !!} % @else - @endif</td>
-							<td class="text-center">{!! $transaksi->total !!}</td>
+							<td class="text-center">{{number_format($transaksi->total)}}</td>
                             <td class="text-center">
                                 @if($transaksi->status == 0) Booking
                                 @elseif($transaksi->status == 1) Pending
@@ -41,10 +41,10 @@
                                 @endif
                             </td>
 							<td class="text-center">
-                                <a href="{{ route('transaksi.show', [$transaksi->id]) }}" class="btn btn-sm btn-outline-primary">
-                                    <i class="material-icons">account_balance_wallet</i>
+                                <a href="/transaksi/detail/{{$transaksi->id}}" class="btn btn-sm btn-outline-primary">
+                                    <i class="material-icons">info</i>
                                 </a>
-                                <a href="/transaksi/edit/{{$transaksi->id}}" class="btn btn-sm btn-outline-primary">
+                                <a @if($transaksi->status != 2) href="/transaksi/edit/{{$transaksi->id}}" @else href="#" disabled @endif class="btn btn-sm btn-outline-primary">
                                     <i class="material-icons">mode_edit</i>
                                 </a>
                                 <a href="/transaksi/destroy/{{$transaksi->id}}" class="btn btn-sm btn-outline-danger">

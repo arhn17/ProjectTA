@@ -29,6 +29,9 @@
     <!-- Custom Css -->
     <link href="{{ url('template/css/style.css') }}" rel="stylesheet">
 
+    <!-- Sweet Alert Css -->
+    <link href="{{ url('template/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" />
+
      <!-- JQuery DataTable Css -->
     <link href="{{ url('template/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css') }}" rel="stylesheet">
 
@@ -92,6 +95,11 @@
     <!-- Slimscroll Plugin Js -->
     <script src="{{ url('template/plugins/jquery-slimscroll/jquery.slimscroll.js') }}"></script>
 
+    <!-- Jquery Validation Plugin Css -->
+    <script src="{{ url('template/plugins/jquery-validation/jquery.validate.js') }}"></script>
+
+    <script src="{{ url('template/plugins/jquery-steps/jquery.steps.js') }}"></script>
+
     <!-- Waves Effect Plugin Js -->
     <script src="{{ url('template/plugins/node-waves/waves.js') }}"></script>
 
@@ -104,6 +112,9 @@
 
     <!-- ChartJs -->
     <script src="{{ url('template/plugins/chartjs/Chart.bundle.js') }}"></script>
+
+    <!-- Sweet Alert Plugin Js -->
+    <script src="{{ url('template/plugins/sweetalert/sweetalert.min.js') }}"></script>
 
     <!-- Flot Charts Plugin Js -->
     <script src="{{ url('template/plugins/flot-charts/jquery.flot.js') }}"></script>
@@ -129,6 +140,7 @@
     <!-- Custom Js -->
     <script src="{{ url('template/js/admin.js') }}"></script> 
     <script src="{{ url('template/js/pages/tables/jquery-datatable.js') }}"></script>
+    <script src="{{ url('template/js/pages/forms/form-wizard.js') }}"></script>
 
     <!-- Demo Js -->
     <script src="{{ url('template/js/demo.js') }}"></script>

@@ -22,10 +22,12 @@ Route::group(['middleware'=>'auth'], function()
 	Route::get('/home', 'HomeController@index')->name('home');
 
 	Route::resource('/pelanggan', 'PelangganController');
+	Route::post('/pelanggan/update', 'PelangganController@update');
 
 	Route::resource('/transaksi', 'TransaksiController');
 	Route::get('/transaksi/destroy/{id}', 'TransaksiController@destroy');
 	Route::get('/transaksi/edit/{id}', 'TransaksiController@edit');
+	Route::get('/transaksi/detail/{id}', 'TransaksiController@detail');
 	Route::get('/transaksi/delete/paket/{pesanan}/{paket}', 'TransaksiController@delete_paket');
 	Route::get('/transaksi/delete/service/{pesanan}/{service}', 'TransaksiController@delete_service');
 	Route::post('/transaksi/update', 'TransaksiController@update');

@@ -18,7 +18,7 @@ class HistoryTopupController extends Controller
 
   public function new()
   {
-      $data['pelanggan'] = Pelanggan::with('user')->where('id', '!=', 1)->get();
+      $data['pelanggan'] = Pelanggan::with('user')->where('user_id', '!=', 1)->get();
       $data['save'] = 'success';
       return view('pages.topup.new', $data);
   }
