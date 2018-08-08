@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Auth;
 
 class TransaksiController extends Controller
 {
-     public function index()
+    public $successStatus = 200;
+
+    public function index()
     {
     	$transaksis = Transaksi::with('user', 'detail_perawatan', 'pelanggan', 'pelanggan.user', 'diskon')->orderby('id', 'desc')->get();
         //dd($transaksis);
@@ -271,9 +273,28 @@ class TransaksiController extends Controller
 
     public function detail ($id)
     {
-        $data['transaksi'] = Transaksi::with('pelanggan')->where('id', $id)->first();
-        $data['package'] = DetailPerawatan::with('paket', 'service')->where('transaksi_id', $id)->where('paket_id', '!=', null)->get();
-        $data['service'] = DetailPerawatan::with('service')->where('transaksi_id', $id)->where('paket_id', '=', null)->get();
+        $data['transaksi'] = Transaksi::with('pelanggan', 'diskon')->where('id', $id)->first();
+        $data['package'] = DetailPerawatan::with('paket', 'service', 'therapist')->where('transaksi_id', $id)->where('paket_id', '!=', null)->get();
+        $data['packages'] = DetailPerawatan::with('paket', 'service', 'therapist')->where('transaksi_id', $id)->where('paket_id', '!=', null)->get();
+        $data['package_detail'] = DetailPerawatan::with('paket', 'service', 'therapist')->where('transaksi_id', $id)->where('paket_id', '!=', null)->get();
+        $data['service'] = DetailPerawatan::with('service', 'therapist')->where('transaksi_id', $id)->where('paket_id', '=', null)->get();
+        $data['services'] = DetailPerawatan::with('service', 'therapist')->where('transaksi_id', $id)->where('paket_id', '=', null)->get();
+        //dd($data['package'][0]->service);
         return view('pages.transaksi.detail', $data);
+    }
+
+    public function payment (Request $request)
+    {
+        $transaksi_id = $request->input('transaksi_id');
+
+        if ($transaksi_id != null) {
+            Transaksi::where('id', $transaksi_id)->update(['status' => 2]);
+            $data['message'] = 'success';
+            return response()->json($data, $this->successStatus);
+        }
+        else {
+            $data['message'] = 'error';
+            return response()->json($data, 400);
+        }
     }
 }

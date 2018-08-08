@@ -62,9 +62,27 @@ $(function () {
             return form.valid();
         },
         onFinished: function (event, currentIndex) {
-            alert(1)
-            // location.reload()
-            swal("Good job!", "Submitted!", "success");
+            //alert($('#transaksi_id').val())
+            if ($('#status').val() == 2) {
+                swal("Transaction was Paid !", "Error!", "error");
+            }
+            else{
+                var token = $('meta[name="token"]').attr('content');
+
+                $.ajax({
+                    type : "POST",
+                    url : "/api/payment",
+                    dataType : "json",
+                    data : {
+                        'transaksi_id' : $('#transaksi_id').val()
+                    },
+                }).done(function(response){
+                    swal("Payment Saved!", "Submitted!", "success");
+                    location.reload()
+                }).error(function(data){
+                    swal("Saving Failed!", "Error!", "error");
+                });
+            }
         }
     });
 

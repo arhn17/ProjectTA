@@ -75,3 +75,4 @@ Route::group(['middleware'=>'auth'], function()
 	Route::get('/therapist/get_all', 'TherapistController@get_all');
 	Route::get('/ruangan/get_all', 'RuanganController@get_all');
 	Route::get('/service/get_all', 'ServiceController@get_all');
+	Route::post('/payment', 'TransaksiController@payment');

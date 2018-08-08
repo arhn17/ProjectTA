@@ -26,6 +26,8 @@
                                 </div>
                                 <div class="body">
                                     <form id="wizard_with_validation" method="POST">
+                                        <input type="text" name="transaksi_id" id="transaksi_id" value="{{$transaksi->id}}" hidden>
+                                        <input type="text" id="status" value="{{$transaksi->status}}" hidden>
                                         <h3>Detail</h3>
                                         <fieldset>
                                             <div class="row clearfix">
@@ -176,7 +178,7 @@
                                         <fieldset>
                                             <div class="row clearfix">
                                                 <div class="body">
-                                                    <div class="col-md-offset-2 col-md-8">
+                                                    <div class="col-md-offset-1 col-md-10">
                                                         <div>
                                                             <h5>Muslimah Beauty care</h5>
                                                         </div>
@@ -185,44 +187,124 @@
                                                         </div>
                                                         <hr>
                                                         <div>
-                                                            <div class="table-responsive">
-                                                                <table>
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <td width="30%"></td>
-                                                                            <td width="5%"></td>
-                                                                            <td></td>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td>No</td>
-                                                                            <td>:</td>
-                                                                            <td>{{$transaksi->id}}</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Coustumer Code</td>
-                                                                            <td>:</td>
-                                                                            <td></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Coustumer Name</td>
-                                                                            <td>:</td>
-                                                                            <td>{{$transaksi->pelanggan->nama}}</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Address</td>
-                                                                            <td>:</td>
-                                                                            <td>{{$transaksi->pelanggan->alamat}}</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Telephone</td>
-                                                                            <td>:</td>
-                                                                            <td>{{$transaksi->pelanggan->telepon}}</td>
-                                                                        </tr>
-                                                                    </tbody>
+                                                            <div>
+                                                                <table class="table">
+                                                                    <tr>
+                                                                        <td width="30%">No</td>
+                                                                        <td width="5%">:</td>
+                                                                        <td>{{$transaksi->id}}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Coustumer Code</td>
+                                                                        <td>:</td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Coustumer Name</td>
+                                                                        <td>:</td>
+                                                                        <td>{{$transaksi->pelanggan->nama}}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Address</td>
+                                                                        <td>:</td>
+                                                                        <td>{{$transaksi->pelanggan->alamat}}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Telephone</td>
+                                                                        <td>:</td>
+                                                                        <td>{{$transaksi->pelanggan->telepon}}</td>
+                                                                    </tr>
                                                                 </table>
                                                             </div>
+                                                        </div>
+                                                        <hr>
+                                                        <div>
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>No</td>
+                                                                        <td>Treatment</td>
+                                                                        <td>Therapist</td>
+                                                                        <td>Price</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $nor = 1; ?>
+                                                                    @if($package != null)
+                                                                        @foreach($packages as $packages)
+                                                                            <tr>
+                                                                                <td>{{$nor}}</td>
+                                                                                <td>{{$packages->service->nama_services}}</td>
+                                                                                <td>{{$packages->therapist->nama}}</td>
+                                                                                <td>{{$packages->paket->nama_paket}}</td>
+                                                                            </tr>
+                                                                            <?php $nor++; ?>
+                                                                        @endforeach
+                                                                    @endif
+                                                                    @if($package != null)
+                                                                        @foreach($services as $services)
+                                                                            <tr>
+                                                                                <td>{{$nor}}</td>
+                                                                                <td>{{$services->service->nama_services}}</td>
+                                                                                <td>{{$services->therapist->nama}}</td>
+                                                                                <td>Rp.
+                                                                                    @if($transaksi->pelanggan->user_id == 1) {{number_format($services->service->tarif_normal)}}
+                                                                                    @else {{number_format($services->service->tarif_member)}}
+                                                                                    @endif
+                                                                                </td>
+                                                                            </tr>
+                                                                            <?php $nor++; ?>
+                                                                        @endforeach
+                                                                    @endif
+                                                                    <tr><td colspan="4"></td></tr>
+                                                                    @if($package_detail != null)
+                                                                    <?php $test = 0; $pack_id = 0; ?>
+                                                                        @foreach($package_detail as $pack_det)
+                                                                            @if($test == 0 || $test == $pack_det->service_id || $pack_id != $pack_det->paket_id)
+                                                                                <tr>
+                                                                                    <td></td>
+                                                                                    <td>{{$pack_det->paket->nama_paket}}</td>
+                                                                                    <td></td>
+                                                                                    <td>Rp.
+                                                                                        @if($transaksi->pelanggan->user_id == 1) {{number_format($pack_det->paket->tarif_normal)}}
+                                                                                        @else {{number_format($pack_det->paket->tarif_member)}}
+                                                                                        @endif</td>
+                                                                                </tr>
+                                                                                <?php $test = $pack_det->service_id; $pack_id = $pack_det->paket_id; ?>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @endif
+                                                                    <tr><td colspan="4"></td></tr>
+                                                                    <tr>
+                                                                        <td></td>
+                                                                        <td class="text-right">Sub Total</td>
+                                                                        <td></td>
+                                                                        <td>Rp.{{number_format($transaksi->total)}}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td></td>
+                                                                        <td class="text-right">Discount</td>
+                                                                        <td></td>
+                                                                        <td>
+                                                                            @if($transaksi->diskon_id != null) {{$transaksi->diskon->nilai}} %
+                                                                            @else -
+                                                                            @endif
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td></td>
+                                                                        <td class="text-right">Total Payment</td>
+                                                                        <td></td>
+                                                                        <td>
+                                                                            @if($transaksi->diskon_id != null) 
+                                                                                Rp.{{number_format($transaksi->total - (($transaksi->total * $transaksi->diskon->nilai) / 100))}}
+                                                                            @else
+                                                                                Rp.{{number_format($transaksi->total)}}
+                                                                            @endif
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
                                                     </div>
                                                 </div>
