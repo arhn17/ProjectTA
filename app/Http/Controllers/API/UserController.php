@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Pelanggan;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -55,6 +56,23 @@ class UserController extends Controller
             else{
                 return 1;
             }
+        }
+    }
+
+    public function update_password(Request $request){
+        $id = $request->id;
+        $old_password = $request->old_password;
+        $new_password = $request->new_password;
+
+        $user = User::where('id', $id)->first();
+
+        if (Hash::check($old_password, $user->password)) 
+        {
+            User::where('id', $id)->update(['password' => bcrypt($new_password)]);
+            return 0;
+        }
+        else{
+            return 1;
         }
     }
 }

@@ -35,8 +35,12 @@
                             </div>
                         </div>
                     </form>
+                    <div class="row clearfix text-right" style="margin-right: 20px; margin-bottom: 20px">
+                        <a href="{{ url("/report/download/?file=xls&start_date={$start_date}&end_date={$end_date}") }}" class="btn btn-sm btn-primary"><i class="material-icons">file_download</i>Excel</a>                        
+                        <a href="{{ url("/report/download/?file=csv&start_date={$start_date}&end_date={$end_date}") }}" class="btn btn-sm btn-primary"><i class="material-icons">file_download</i>CSV</a>
+                    </div>
         			<div class="table-responsive">
-        			<table class="table table-bordered table-striped table-hover dataTable js-exportable">
+        			<table class="table table-bordered table-striped table-hover js-basic-example dataTable">
         				<thead>
         					<tr>
         						<th class="text-center" width="1%">No</th>

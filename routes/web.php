@@ -89,3 +89,4 @@ Route::group(['middleware'=>'auth'], function()
 	Route::get('/ruangan/get_all', 'RuanganController@get_all');
 	Route::get('/service/get_all', 'ServiceController@get_all');
 	Route::post('/payment', 'TransaksiController@payment');
+	Route::get('/report/download', 'ReportController@page_download');

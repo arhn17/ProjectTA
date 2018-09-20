@@ -16,12 +16,13 @@ class ReportController extends Controller
     	$end_date = $request->input('end_date');
 
     	if ($start_date == "" || $end_date == "") {
-    		$data['transaksis'] = Transaksi::with('user', 'detail_perawatan', 'pelanggan', 'pelanggan.user', 'diskon')->orderby('id', 'desc')->get();
+    		$data['transaksis'] = Transaksi::with('user', 'detail_perawatan', 'pelanggan', 'pelanggan.user', 'diskon')->where('status', 2)->orderby('id', 'desc')->get();
     	}
     	else{
     		$data['transaksis'] = Transaksi::with('user', 'detail_perawatan', 'pelanggan', 'pelanggan.user', 'diskon')
     							->where('trans_date', '>=', "{$start_date}")
                     			->where('trans_date', '<=', "{$end_date}")
+                                ->where('status', 2)
                     			->orderby('id', 'desc')
                     			->get();
     	}
@@ -42,13 +43,15 @@ class ReportController extends Controller
             Excel::create('Report', function($excel) use ($start_date, $end_date) {
                 $excel->sheet('Sheet 1', function($sheet) use ($start_date, $end_date) {
                     $objDrawing = new PHPExcel_Worksheet_Drawing;
-                    $objDrawing->setPath(public_path('images/logo.png')); //your image path
+                    $objDrawing->setPath(public_path('template/images/logo.jpeg')); //your image path
                     $objDrawing->setCoordinates('A1');
                     $objDrawing->setHeight(60);
                     $objDrawing->setWorksheet($sheet);
                     $objDrawing->setOffsetX(10);
 
                     $data['transaction'] = $this->get_transactions($start_date, $end_date);
+                    $data['start_date'] = $start_date;
+                    $data['end_date'] = $end_date;
 
                     $sheet->loadView('pages.report.download', $data);
 
@@ -59,8 +62,10 @@ class ReportController extends Controller
         else if ($file == 'pdf') {
 
             $data['transaction'] = $this->get_transactions($start_date, $end_date);
+            $data['start_date'] = $start_date;
+            $data['end_date'] = $end_date;
 
-            $pdf = PDF::loadView('pages.report.downloadpdf', $data)->setPaper('a4', 'landscape');
+            $pdf = PDF::loadView('pages.report.downloadpdf', $data)->setPaper('A3', 'landscape');
             return $pdf->download('Report - '. $start_date .'-'. $end_date .'.pdf');
         }
         else{
@@ -69,13 +74,15 @@ class ReportController extends Controller
             Excel::create('Report', function($excel) use ($start_date, $end_date) {
                 $excel->sheet('Sheet 1', function($sheet) use ($start_date, $end_date) {
                     $objDrawing = new PHPExcel_Worksheet_Drawing;
-                    $objDrawing->setPath(public_path('images/logo.png')); //your image path
+                    $objDrawing->setPath(public_path('template/images/logo.jpeg')); //your image path
                     $objDrawing->setCoordinates('A1');
                     $objDrawing->setHeight(60);
                     $objDrawing->setWorksheet($sheet);
                     $objDrawing->setOffsetX(10);
 
                     $data['transaction'] = $this->get_transactions($start_date, $end_date);
+                    $data['start_date'] = $start_date;
+                    $data['end_date'] = $end_date;
 
                     $sheet->loadView('pages.report.download', $data);
 
@@ -85,7 +92,12 @@ class ReportController extends Controller
         }
     }
 
-    private function get_transactions(){
-        return Transaksi::where('status', 2)->get();
+    private function get_transactions($start_date, $end_date){
+        return Transaksi::with('user', 'detail_perawatan', 'pelanggan', 'pelanggan.user', 'diskon')
+                                ->where('trans_date', '>=', "{$start_date}")
+                                ->where('trans_date', '<=', "{$end_date}")
+                                ->where('status', 2)
+                                ->orderby('id', 'desc')
+                                ->get();
     }
 }

@@ -28,6 +28,7 @@ Route::get('/service/get_detail_category', 'API\ServiceController@get_detail_cat
 
 Route::get('/user/get_detail', 'API\UserController@get_detail');
 Route::post('/user/update_profile', 'API\UserController@update_profile');
+Route::post('user/update_password', 'API\UserController@update_password');
 
 Route::get('/transaksi/get_by_user', 'API\TransactionController@get_by_user');
 Route::get('/transaksi/get_booking', 'API\TransactionController@get_booking');

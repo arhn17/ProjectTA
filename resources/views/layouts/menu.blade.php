@@ -1,11 +1,14 @@
 
 <ul class="list">
     <li class="header">Menu</li>
-    <li class="active">
+    <li class="active"></li>
+    <li>
         <a href="{!! url('/home') !!}">
             <i class="material-icons">home</i>
             <span>Home</span>
         </a>
+    </li>
+    <li>
         <a href="{!! route('transaksi.index') !!}">
             <i class="material-icons">payment</i>
             <span>Transaction</span>
@@ -31,7 +34,7 @@
     </li>
     <li>
         <a href="javascript:void(0);" class="menu-toggle">
-            <i class="material-icons">people</i>
+            <i class="material-icons">assignment</i>
             <span>Service Management</span>
         </a>
         <ul class="ml-menu">
@@ -62,12 +65,16 @@
             </li>
         </ul>
     </li>
-    <a href="{{url('/report?startdate=&end_date=')}}">
-            <i class="material-icons">people</i>
-            <span>Report</span>
-    </a>
-    <a href="{!! route('user.index') !!}">
-            <i class="material-icons">people</i>
-            <span>Manajemen User</span>
-    </a>
+    <li>
+        <a href="{{url('/report?startdate=&end_date=')}}">
+                <i class="material-icons">report</i>
+                <span>Report</span>
+        </a>
+    </li>
+    <li>
+        <a href="{!! route('user.index') !!}">
+                <i class="material-icons">person_pin</i>
+                <span>Manajemen User</span>
+        </a>
+    </li>
 </ul>
