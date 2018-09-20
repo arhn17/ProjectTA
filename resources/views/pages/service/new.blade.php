@@ -35,12 +35,15 @@
 
                     <div class="row clearfix">
                         <div class="col-md-6">
-                            <label>Type</label>
+                            <label>Category</label>
                             <div class="form-group">
                                 <div class="form-line">
                                     <select class="form-control" name="type">
-                                        <option value="0">Long Hair</option>
-                                        <option value="1">Short Hair</option>
+                                        <option value="1">Facial</option>
+                                        <option value="2">Reflexi Message</option>
+                                        <option value="3">Hair</option>
+                                        <option value="4">Body Scrub</option>
+                                        <option value="5">Hand & Foot</option>
                                     </select>
                                 </div>
                             </div>
@@ -50,8 +53,9 @@
                             <div class="form-group">
                                 <div class="form-line">
                                     <select class="form-control" name="level">
-                                        <option value="0">Rambut Panjang</option>
-                                        <option value="1">Rambut Pendek</option>
+                                        <option value="2">Normal Hair</option>
+                                        <option value="0">Long Hair</option>
+                                        <option value="1">Short Hair</option>
                                     </select>
                                 </div>
                             </div>

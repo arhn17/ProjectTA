@@ -11,7 +11,7 @@ class HistoryTopupController extends Controller
 {
   public function index()
    {
-   		$data['topup'] = HistoryTopup::with('pelanggan', 'pelanggan.user')->get();
+   		$data['topup'] = HistoryTopup::with('pelanggan', 'pelanggan.user')->orderBy('id', 'desc')->get();
       $data['save'] = '';
    		return view('pages.topup.index', $data);
    }
@@ -19,7 +19,7 @@ class HistoryTopupController extends Controller
   public function new()
   {
       $data['pelanggan'] = Pelanggan::with('user')->where('user_id', '!=', 1)->get();
-      $data['save'] = 'success';
+      $data['save'] = '';
       return view('pages.topup.new', $data);
   }
 
@@ -43,8 +43,9 @@ class HistoryTopupController extends Controller
     $saldo = $pelanggan->saldo + $nominal;
 
     Pelanggan::where('id', $pelanggan_id)->update(['saldo' => $saldo]);
-
+      
+    $data['pelanggan'] = Pelanggan::with('user')->where('user_id', '!=', 1)->get();
     $data['save'] = "success";
-    return view('pages.ruangan.new', $data);
+    return view('pages.topup.index', $data);
   }
 }

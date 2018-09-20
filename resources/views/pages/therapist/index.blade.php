@@ -31,6 +31,7 @@
 				<thead>
 					<tr>
                         <th class="text-center" width="1%">No</th>
+                        <th class="text-center" width="1%">ID</th>
 						<th class="text-center">Therapist Name</th>
                         <th class="text-center" width="20%">Action</th>
                     </tr>
@@ -40,9 +41,10 @@
                     @foreach($therapist as $therapist)
                         <tr>
                             <td class="text-center">{{$no}}</td>
+                            <td class="text-center">{{$therapist->id}}</td>
                             <td>{{$therapist->nama}}</td>
                             <td class="text-center">
-                                <a href="/therapist/show?id={{$therapist->id}}" class="btn btn-sm btn-outline-primary">
+                                <a href="/therapist/show/{{$therapist->id}}" class="btn btn-sm btn-outline-primary">
                                     <i class="material-icons">mode_edit</i>
                                 </a>
                                 <a href="/therapist/destroy/{{$therapist->id}}" class="btn btn-sm btn-outline-danger">

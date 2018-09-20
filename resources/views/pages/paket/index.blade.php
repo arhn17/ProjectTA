@@ -46,7 +46,7 @@
                             <td class="text-center">{{$paket->tarif_member}}</td>
                             <td class="text-center">{{$paket->tarif_normal}}</td>
                             <td class="text-center">
-                                <a href="/paket/show?id={{$paket->id}}" class="btn btn-sm btn-outline-primary">
+                                <a href="/paket/show/{{$paket->id}}" class="btn btn-sm btn-outline-primary">
                                     <i class="material-icons">mode_edit</i>
                                 </a>
                                 <a href="/paket/destroy/{{$paket->id}}" class="btn btn-sm btn-outline-danger">

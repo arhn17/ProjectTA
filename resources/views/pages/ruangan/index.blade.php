@@ -59,7 +59,7 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                <a href="/ruangan/show?id={{$ruangan->id}}" class="btn btn-sm btn-outline-primary">
+                                <a href="/ruangan/show/{{$ruangan->id}}" class="btn btn-sm btn-outline-primary">
                                     <i class="material-icons">mode_edit</i>
                                 </a>
                                 <a href="/ruangan/destroy/{{$ruangan->id}}" class="btn btn-sm btn-outline-danger">

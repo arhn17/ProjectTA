@@ -6,29 +6,21 @@
     </div> -->
     <div class="card">
         <div class="body">
-            <form method="post" action="{{url('/topup/input')}}">
+            <form method="post" action="{{url('ruangan/update')}}">
                 @csrf
+                <input type="text" name="id" value="{{$ruangan->id}}" hidden required>
+                <div class="card-header">
+                    <i class="fa fa-align-justify"></i> <h4>Room Detail</h4><br>
+                </div>
                 
                 <div class="card-body">  
 
                     <div class="row clearfix">
-                        <div class="col-md-6">
-                            <label for="email">Coustumer (ID - Name)</label>    
+                        <div class="col-md-12">
+                            <label for="email">Room Name</label>    
                             <div class="form-group">
                                 <div class="form-line">
-                                    <select class="form-control" name="pelanggan" required>
-                                        @foreach($pelanggan as $pelanggan)
-                                        <option value="{{$pelanggan->id}}">{{$pelanggan->id}} - {{$pelanggan->user->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="email">Nominal (Rp)</label>    
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" name="nominal" class="form-control" required>
+                                    <input type="text" name="nama_ruang" class="form-control" value="{{$ruangan->nama_ruang}}" required>
                                 </div>
                             </div>
                         </div>

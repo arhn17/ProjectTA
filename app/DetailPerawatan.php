@@ -8,12 +8,12 @@ class DetailPerawatan extends Model
 {
 	protected $table = 'detail_perawatans';
     protected $fillable = [
-        'pesanan_id', 'therapist_id', 'service_id', 'ruangan_id', 'paket_id', 'status_perawatan'
+        'transaksi_id', 'therapist_id', 'service_id', 'ruangan_id', 'paket_id', 'status_perawatan'
     ];
 
     public function transaksi ()
     {
-    	return $this->belongsTo('App\Transaksi', 'pesanan_id', 'id');
+    	return $this->belongsTo('App\Transaksi', 'transaksi_id', 'id');
     }
 
     public function therapist ()

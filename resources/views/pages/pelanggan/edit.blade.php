@@ -18,24 +18,17 @@
                     <div class="row clearfix">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="email_address">Coustumer Type</label>
+                                <label for="email_address">Name *</label>
                                 <div class="form-line">
-                                    @if($pelanggan->user_id == 1)
-                                        <select class="form-control show-tick" name="role" id="role" onchange="change_role(this.value)">
-                                            <option value="0">Non Member</option>
-                                            <option value="1">Member</option>
-                                        </select>
-                                    @else
-                                        <input type="text" name="role" value="Member" readonly class="form-control">
-                                    @endif
+                                    <input type="text" name="nama" class="form-control" value="{{$pelanggan->nama}}">
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="email_address">Name *</label>
+                                <label for="email_address">Birthdate *</label>
                                 <div class="form-line">
-                                    <input type="text" name="nama" class="form-control" value="{{$pelanggan->nama}}">
+                                    <input type="text" name="birth" class="form-control" value="{{$pelanggan->tanggal_lahir}}">
                                 </div>
                             </div>
                         </div>
@@ -106,14 +99,4 @@
 		</div>
     </div>
 </div>
-@endsection
-
-@section('script')
-<script type="text/javascript">
-    function change_role (value)
-    {
-        if (value == 1) $('.user').show()
-        else $('.user').hide()
-    }
-</script>
 @endsection

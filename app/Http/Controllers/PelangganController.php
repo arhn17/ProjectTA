@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Pelanggan;
 use App\User;
+use App\Transaksi;
 use Validator;
 
 class PelangganController extends Controller
 {
     public function index()
     {
-    	$pelanggans = Pelanggan::where('user_id', '!=', 1)->get();
-    	return view('pages.pelanggan.index',compact('pelanggans'));
+    	$data['pelanggans'] = Pelanggan::where('user_id', '!=', 1)->get();
+        $data['save'] = '';
+    	return view('pages.pelanggan.index', $data);
     }
 
     public function create()
@@ -27,7 +29,8 @@ class PelangganController extends Controller
             "nama" => "required",
             "telepon" => "required",
             "email" => "required|email|unique:users,email",
-            "password" => "required"
+            "password" => "required",
+            "birth" => "required"
         ]);
 
         $user_id = User::insertGetId([
@@ -44,12 +47,14 @@ class PelangganController extends Controller
         $pelanggan->nama = $request->nama;
         $pelanggan->alamat = $request->alamat;
         $pelanggan->telepon = $request->telepon;
+        $pelanggan->tanggal_lahir = $request->birth;
         $pelanggan->saldo = 0;
         $pelanggan->reg_date = now()->toDateString();
         $pelanggan->save();
 
+        $data['pelanggans'] = Pelanggan::where('user_id', '!=', 1)->get();
         $data['save'] = 'success';
-        return view('pages.pelanggan.create', $data);
+        return view('pages.pelanggan.index', $data);
     }
 
     public function edit ($id)
@@ -63,63 +68,35 @@ class PelangganController extends Controller
     {
         $pelanggan_id = $request->pelanggan_id;
 
-        $roles = pelanggan::where('id', $pelanggan_id)->first();
+        $request->validate([
+            "nama" => "required",
+            "telepon" => "required"
+        ]);
 
-        if ($roles->user_id == 0) {
-            $role = $request->role;
-
-            if ($role == 0) {
-                $request->validate([
-                    "nama" => "required",
-                    "telepon" => "required"
+        pelanggan::where('id', $pelanggan_id)->update([
+                    "nama" => $request->nama,
+                    "alamat" => $request->alamat,
+                    "telepon" => $request->telepon,
+                    "tanggal_lahir" => $request->birth
                 ]);
-
-                pelanggan::where('id', $pelanggan_id)->update([
-                            "nama" => $request->nama,
-                            "alamat" => $request->alamat,
-                            "telepon" => $request->telepon
-                        ]);
-            }
-            else {
-                $request->validate([
-                    "nama" => "required",
-                    "email" => "required|email|unique:users,email",
-                    "password" => "required",
-                    "telepon" => "required"
-                ]);
-
-                $user_id = User::insertGetId([
-                        "name" => $request->nama,
-                        "email" => $request->email,
-                        "password" => bcrypt($request->password),
-                        "role" => 3,
-                        "status" => 0,
-                        "created_at" => now()
-                    ]);
-
-                pelanggan::where('id', $pelanggan_id)->update([
-                            "user_id" => $user_id,
-                            "nama" => $request->nama,
-                            "alamat" => $request->alamat,
-                            "telepon" => $request->telepon
-                        ]);
-            }
-        }
-        else {
-            $request->validate([
-                "nama" => "required",
-                "telepon" => "required"
-            ]);
-
-            pelanggan::where('id', $pelanggan_id)->update([
-                        "nama" => $request->nama,
-                        "alamat" => $request->alamat,
-                        "telepon" => $request->telepon
-                    ]);
-        }
 
         $data['pelanggan'] = Pelanggan::with('user')->where('id', $pelanggan_id)->first();
         $data['save'] = 'success';
         return view('pages.pelanggan.edit', $data);
+    }
+
+    public function delete($id){
+        $check_trans = Transaksi::where('pelanggan_id', $id)->first();
+
+        if ($check_trans == null) {
+            $user = pelanggan::where('id', $id)->first();
+            Pelanggan::where('id', $id)->delete();
+            User::where('id', $user->user_id)->delete();
+            $data['message'] = 0;
+        }
+        else{
+            $data['message'] = 1;
+        }
+        return $data;
     }
 }

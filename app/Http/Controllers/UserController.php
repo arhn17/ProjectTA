@@ -12,8 +12,9 @@ class UserController extends Controller
 {
     public function index()
     {
-    	$users = User::where('role', '!=', 0)->get();
-    	return view('pages.user.index',compact('users'));
+    	$data['users'] = User::where('role', '!=', 0)->get();
+        $data['save'] = '';
+    	return view('pages.user.index', $data);
     }
 
     public function create()
@@ -31,7 +32,10 @@ class UserController extends Controller
         $user->password = bcrypt($request->password);
         $user->status = 0;
     	$user->save();
-    	return redirect(route('user.index'));
+
+        $data['users'] = User::where('role', '!=', 0)->get();
+        $data['save'] = 'success';
+        return view('pages.user.index', $data);
 
     }
 

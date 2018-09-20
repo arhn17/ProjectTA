@@ -21,7 +21,6 @@ class TransaksiController extends Controller
     public function index()
     {
     	$transaksis = Transaksi::with('user', 'detail_perawatan', 'pelanggan', 'pelanggan.user', 'diskon')->orderby('id', 'desc')->get();
-        //dd($transaksis);
     	return view('pages.transaksi.index',compact('transaksis'));
     }
 
@@ -43,13 +42,14 @@ class TransaksiController extends Controller
         $coustumer_name = $request->input('coustumer_name');
         $telepon = $request->input('telepon');
         $address = $request->input('address');
+        $trans_date = $request->input('trans_date');
         $fee = 0;
 
         if ($service != null) {
             foreach ($service as $key => $value) {
                 $service_detail = Service::where('id', $value)->first();
                 
-                if ($coustumer_role == 1) $fee += $service_detail->tarif_normal;
+                if ($coustumer_role == 0) $fee += $service_detail->tarif_normal;
                 else $fee += $service_detail->tarif_member;
             }
         }
@@ -58,7 +58,7 @@ class TransaksiController extends Controller
             foreach ($package as $key => $value) {
                 $package_detail = Paket::where('id', $value)->first();
                 
-                if ($coustumer_role == 1) $fee += $package_detail->tarif_normal;
+                if ($coustumer_role == 0) $fee += $package_detail->tarif_normal;
                 else $fee += $package_detail->tarif_member;
             }
         }
@@ -85,6 +85,7 @@ class TransaksiController extends Controller
                             'total' => $fee,
                             'status' => $request->input('status'),
                             'diskon_id' => $diskon,
+                            'trans_date' => $trans_date,
                             'created_at' => now()
                         ]);
 
@@ -200,13 +201,14 @@ class TransaksiController extends Controller
         $coustumer = $request->input('pelanggan_id');
         $diskon = $request->input('diskon');
         $transaksi_id = $request->input('transaksi_id');
+        $trans_date = $request->input('trans_date');
         $fee = 0;
 
         if ($service != null) {
             foreach ($service as $key => $value) {
                 $service_detail = Service::where('id', $value)->first();
                 
-                if ($coustumer == 1) $fee += $service_detail->tarif_normal;
+                if ($coustumer == 0) $fee += $service_detail->tarif_normal;
                 else $fee += $service_detail->tarif_member;
             }
         }
@@ -215,7 +217,7 @@ class TransaksiController extends Controller
             foreach ($package as $key => $value) {
                 $package_detail = Paket::where('id', $value)->first();
                 
-                if ($coustumer == 1) $fee += $package_detail->tarif_normal;
+                if ($coustumer == 0) $fee += $package_detail->tarif_normal;
                 else $fee += $package_detail->tarif_member;
             }
         }
@@ -231,6 +233,7 @@ class TransaksiController extends Controller
                                                     'total' => $fee,
                                                     'status' => $request->input('status'),
                                                     'diskon_id' => $diskon,
+                                                    'trans_date' => $trans_date,
                                                     'updated_at' => now()
                                                 ]);
 
@@ -273,6 +276,7 @@ class TransaksiController extends Controller
 
     public function detail ($id)
     {
+        $data['user'] = Auth::user();
         $data['transaksi'] = Transaksi::with('pelanggan', 'diskon')->where('id', $id)->first();
         $data['package'] = DetailPerawatan::with('paket', 'service', 'therapist')->where('transaksi_id', $id)->where('paket_id', '!=', null)->get();
         $data['packages'] = DetailPerawatan::with('paket', 'service', 'therapist')->where('transaksi_id', $id)->where('paket_id', '!=', null)->get();

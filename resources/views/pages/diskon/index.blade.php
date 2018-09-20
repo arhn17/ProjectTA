@@ -44,7 +44,7 @@
                             <td>{{$diskon->deskripsi}}</td>
                             <td class="text-center">{{$diskon->nilai}}</td>
                             <td class="text-center">
-                                <a href="/diskon/show?id={{$diskon->id}}" class="btn btn-sm btn-outline-primary">
+                                <a href="/diskon/show/{{$diskon->id}}" class="btn btn-sm btn-outline-primary">
                                     <i class="material-icons">mode_edit</i>
                                 </a>
                                 <a href="/diskon/destroy/{{$diskon->id}}" class="btn btn-sm btn-outline-danger">

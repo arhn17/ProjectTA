@@ -39,8 +39,9 @@ class TherapistController extends Controller
 			"nama" => $nama
 		]);
 
+		$data['therapist'] = Therapist::all();
 		$data['save'] = "success";
-		return view('pages.therapist.new', $data);
+		return view('pages.therapist.index', $data);
 	}
 
 	public function destroy($id)
@@ -60,5 +61,18 @@ class TherapistController extends Controller
 			$data['save'] = "success";
 			return view('pages.therapist.index', $data);
 		}
+	}
+
+	public function show($id){
+		$data['save'] = "";
+		$data['therapist'] = Therapist::where('id', $id)->first();
+		return view('pages.therapist.detail', $data);
+	}
+
+	public function update(Request $request){
+		Therapist::where('id', $request->id)->update(['nama' => $request->nama]);
+		$data['save'] = "success";
+		$data['therapist'] = Therapist::where('id', $request->id)->first();
+		return view('pages.therapist.detail', $data);
 	}
 }

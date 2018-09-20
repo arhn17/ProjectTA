@@ -36,12 +36,15 @@
 
                     <div class="row clearfix">
                         <div class="col-md-6">
-                            <label>Type</label>
+                            <label>category</label>
                             <div class="form-group">
                                 <div class="form-line">
                                     <select class="form-control" name="type">
-                                        <option value="0">Long Hair</option>
-                                        <option value="1">Short Hair</option>
+                                        <option value="1" @if($service->type == 1) selected @endif>Facial</option>
+                                        <option value="2" @if($service->type == 2) selected @endif>Reflexi Message</option>
+                                        <option value="3" @if($service->type == 3) selected @endif>Hair</option>
+                                        <option value="4" @if($service->type == 4) selected @endif>Body Scrub</option>
+                                        <option value="5" @if($service->type == 5) selected @endif>Hand & Foot</option>
                                     </select>
                                 </div>
                             </div>
@@ -51,8 +54,9 @@
                             <div class="form-group">
                                 <div class="form-line">
                                     <select class="form-control" name="level">
-                                        <option value="0">Rambut Panjang</option>
-                                        <option value="1">Rambut Pendek</option>
+                                        <option value="1" @if($service->level == 2) selected @endif>Normal Hair</option>
+                                        <option value="0" @if($service->level == 0) selected @endif>Long Hair</option>
+                                        <option value="1" @if($service->level == 1) selected @endif>Short Hair</option>
                                     </select>
                                 </div>
                             </div>

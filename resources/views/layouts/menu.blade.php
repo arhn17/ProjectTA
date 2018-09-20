@@ -18,11 +18,6 @@
         </a>
         <ul class="ml-menu">
             <li>
-                <a href="{!! route('pelanggan.create') !!}">
-                    <span>Registration</span>
-                </a>
-            </li>
-            <li>
                 <a href="{!! route('pelanggan.index') !!}">
                     <span>Coustumer Data</span>
                 </a>
@@ -67,7 +62,7 @@
             </li>
         </ul>
     </li>
-    <a href="{!! route('pelanggan.index') !!}">
+    <a href="{{url('/report?startdate=&end_date=')}}">
             <i class="material-icons">people</i>
             <span>Report</span>
     </a>

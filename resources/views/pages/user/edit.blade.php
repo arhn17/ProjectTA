@@ -19,12 +19,30 @@
             </div>
             
             <div class="card-footer">
-                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Simpan</button>
-                <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                <button id="save_user" type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Simpan</button>
             </div>
             
             {{ Form::close() }}
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script type="text/javascript">
+    function retype(){
+        var password=document.getElementById("password");
+        var repassword=document.getElementById("repassword");
+        var save_user=document.getElementById("save_user");
+        var col=document.getElementById("retype");
+
+        if (password.value == repassword.value) {
+            col.style.color="green";
+            save_user.disabled = false
+        }
+        else{
+            col.style.color="red";
+            save_user.disabled = true
+        }
+    }
+</script>
 @endsection

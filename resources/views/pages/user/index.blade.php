@@ -9,6 +9,19 @@
             	 <ul class="header-dropdown m-r--5"></ul>
             </div>
             <div class="body">  
+                @if($save == "success")
+                    <div class="alert alert-success">
+                        <ul>
+                             <li>Data Saved</li>
+                        </ul>
+                    </div>
+                    @elseif($save == "error")
+                    <div class="alert alert-danger">
+                        <ul>
+                             <li>Saving Failed</li>
+                        </ul>
+                    </div>
+                @endif
                 <div class="text-right">
                     <a href="{!! route('user.create') !!}" class="btn btn-primary"><i class="material-icons">add</i><span>New User</span></a>
                 </div>

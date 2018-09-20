@@ -53,25 +53,38 @@ Route::group(['middleware'=>'auth'], function()
 	Route::get('/paket/new', 'PaketController@new');
 	Route::post('/paket/input', 'PaketController@input');
 	Route::get('/paket/destroy/{id}', 'PaketController@destroy');
+	Route::get('/paket/show/{id}', 'PaketController@show');
+	Route::post('/paket/update', 'PaketController@update');
+	Route::get('/paket/delete_detail/{paket_id}/{service_id}', 'PaketController@delete_detail');
+	Route::post('/paket/update', 'PaketController@update');
 
 	Route::get('/detail_paket/get_service/{id}', 'DetailPaketController@get_service');
 
 	Route::get('/diskon', 'DiskonController@index');
 	Route::get('/diskon/new', 'DiskonController@new');
 	Route::post('/diskon/input', 'DiskonController@input');
+	Route::post('/diskon/update', 'DiskonController@update');
 	Route::get('/diskon/destroy/{id}', 'DiskonController@destroy');
+	Route::get('/diskon/show/{id}', 'DiskonController@show');
 
 	Route::get('/ruangan', 'RuanganController@index');
 	Route::get('/ruangan/new', 'RuanganController@new');
 	Route::post('/ruangan/input', 'RuanganController@input');
 	Route::get('/ruangan/destroy/{id}', 'RuanganController@destroy');
 	Route::get('/ruangan/status/{id}/{status}', 'RuanganController@change_status');
+	Route::get('/ruangan/show/{id}', 'RuanganController@show');
+	Route::post('/ruangan/update', 'RuanganController@update');
 
 	Route::get('/therapist', 'TherapistController@index');
 	Route::get('/therapist/new', 'TherapistController@new');
 	Route::post('/therapist/input', 'TherapistController@input');
 	Route::get('/therapist/destroy/{id}', 'TherapistController@destroy');
+	Route::get('/therapist/show/{id}', 'TherapistController@show');
+	Route::post('/therapist/update', 'TherapistController@update');
+
+	Route::get('/report', 'ReportController@index');
 });
+	Route::get('/pelanggan/delete/{id}', 'PelangganController@delete');
 	Route::get('/therapist/get_all', 'TherapistController@get_all');
 	Route::get('/ruangan/get_all', 'RuanganController@get_all');
 	Route::get('/service/get_all', 'ServiceController@get_all');

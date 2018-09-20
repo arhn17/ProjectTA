@@ -15,9 +15,16 @@
 <label for="username">Password</label>
 <div class="form-group">
     <div class="form-line">
-        {{ Form::input('password', 'password', null, ['class' => 'form-control'])}}
+        <input type="password" id="password" name="password" class="form-control">
     </div>
-</div>   
+</div> 
+
+<label id="retype" for="username">Retype Password</label>
+<div class="form-group">
+    <div class="form-line">
+        <input type="password" id="repassword" name="repassword" onchange="retype()" class="form-control">
+    </div>
+</div>  
 
 <div class="form-group">
     <label for="role">Role</label>

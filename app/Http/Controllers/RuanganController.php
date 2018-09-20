@@ -42,8 +42,9 @@ class RuanganController extends Controller
 			"status" => $status
 		]);
 
+		$data['ruangan'] = Ruangan::all();
 		$data['save'] = "success";
-		return view('pages.ruangan.new', $data);
+		return view('pages.ruangan.index', $data);
 	}
 
 	public function destroy($id)
@@ -71,5 +72,18 @@ class RuanganController extends Controller
 		$data['ruangan'] = Ruangan::all();
 		$data['save'] = "success";
 		return view('pages.ruangan.index', $data);
+	}
+
+	public function show($id){
+		$data['save'] = "";
+		$data['ruangan'] = Ruangan::where('id', $id)->first();
+		return view('pages.ruangan.detail', $data);
+	}
+
+	public function update(Request $request){
+		Ruangan::where('id', $request->id)->update(['nama_ruang' => $request->nama_ruang]);
+		$data['save'] = "success";
+		$data['ruangan'] = Ruangan::where('id', $request->id)->first();
+		return view('pages.ruangan.detail', $data);
 	}
 }

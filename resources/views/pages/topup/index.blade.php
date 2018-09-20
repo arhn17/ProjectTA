@@ -31,6 +31,7 @@
                 <thead>
                     <tr>
                         <th class="text-center" width="1%">No</th>
+                        <th class="text-center" width="1%">ID</th>
                         <th class="text-center">Coustumer</th>
                         <th class="text-center">Nominal</th>
                         <th class="text-center">Date</th>
@@ -41,6 +42,7 @@
                     @foreach($topup as $topup)
                         <tr>
                             <td class="text-center">{{$no}}</td>
+                            <td class="text-center">{{$topup->pelanggan->id}}</td>
                             <td class="text-center">{{$topup->pelanggan->user->name}}</td>
                             <td class="text-center">{{$topup->nominal}}</td>
                             <td class="text-center">{{$topup->waktu_topup}}</td>

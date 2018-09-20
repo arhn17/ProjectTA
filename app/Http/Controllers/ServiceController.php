@@ -12,6 +12,7 @@ class ServiceController extends Controller
 	public function index ()
 	{
 		$data['service'] = Service::all();
+		$data['save'] = '';
 		return view('pages.service.index', $data);
 	}
 
@@ -88,7 +89,10 @@ class ServiceController extends Controller
 		];
 
 		$new_service = Service::InsertGetId($array_to_input);
-		return redirect('service');
+		
+		$data['service'] = Service::all();
+		$data['save'] = 'success';
+		return view('pages.service.index', $data);
 	}
 
 	public function get_all ()

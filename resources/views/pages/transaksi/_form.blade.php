@@ -76,11 +76,19 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
         <label for="email_address">Duration</label>
         <div class="form-group">
             <div class="form-line">
-                {{ Form::text('duration', null, ['class' => 'form-control'])}}
+                <input type="text" name="duration" class="form-control" required>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <label for="email_address">Date</label>
+        <div class="form-group">
+            <div class="form-line">
+                <input type="date" name="trans_date" class="form-control" required>
             </div>
         </div>
     </div>

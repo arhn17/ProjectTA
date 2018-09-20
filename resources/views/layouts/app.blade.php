@@ -81,7 +81,6 @@
     <section class="content">
         @yield('content')
     </section>
-    @yield('script')
 
     <!-- Jquery Core Js -->
     <script src="{{ url('template/plugins/jquery/jquery.min.js') }}"></script>
@@ -144,6 +143,7 @@
 
     <!-- Demo Js -->
     <script src="{{ url('template/js/demo.js') }}"></script>
+    @yield('script')
 
 </body>
 

@@ -50,11 +50,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <label for="email_address">Duration</label>
                             <div class="form-group">
                                 <div class="form-line">
-                                    {{ Form::text('duration', $transaksi->durasi, ['class' => 'form-control'])}}
+                                    <input type="text" name="duration" class="form-control" value="{{$transaksi->durasi}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <label for="email_address">Date</label>
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="date" name="trans_date" class="form-control" value="{{$transaksi->trans_date}}">
                                 </div>
                             </div>
                         </div>
@@ -90,7 +98,7 @@
                                                                         <input type="text" class="form-control" value="{{$transpak->paket->nama_paket}}" readonly>
                                                                     </div>
                                                                     <div class="col-sm-1">
-                                                                        <a href="/transaksi/delete/paket/{{$transpak->pesanan_id}}/{{$transpak->paket_id}}" class="btn btn-sm btn-danger"><i class="material-icons">close</i></a>
+                                                                        <a href="/transaksi/delete/paket/{{$transpak->transaksi_id}}/{{$transpak->paket_id}}" class="btn btn-sm btn-danger"><i class="material-icons">close</i></a>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row clearfix" style="margin-bottom: 10px">

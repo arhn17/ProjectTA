@@ -2,7 +2,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="block-header">
-        <h2>Transaction Data</h2>
+        <h2>Report Data</h2>
     </div>
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -10,12 +10,33 @@
             	 <div class="header">
                      <ul class="header-dropdown m-r--5"></ul>
                  </div>
-        		<div class="body">			 
-                    <div class="text-right">
-                        <a href="{!! route('transaksi.create') !!}" class="btn btn-primary"><i class="material-icons">add</i><span>New Transaction</span></a>
-                    </div><br>
+        		<div class="body">
+                    <form method="get" action="/report">
+                        @csrf
+                        <div class="row clearfix">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <label for="email_address">Start Date</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="date" name="start_date" class="form-control" value="{{$start_date, ''}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <label for="email_address">End Date</label>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="date" name="end_date" class="form-control" value="{{$end_date, ''}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 text-center">
+                                <button type="submit" class="btn btn-sm btn-primary" style="margin-top: 10px">Search</button>
+                            </div>
+                        </div>
+                    </form>
         			<div class="table-responsive">
-        			<table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+        			<table class="table table-bordered table-striped table-hover dataTable js-exportable">
         				<thead>
         					<tr>
         						<th class="text-center" width="1%">No</th>
@@ -23,7 +44,6 @@
                             	<th class="text-center">Diskon</th>
                             	<th class="text-center">Total</th>
                                 <th class="text-center">Status</th>
-                                <th class="text-center" width="20%">Aksi</th>
                             </tr>
         				</thead>
         				<tbody>
@@ -39,17 +59,6 @@
                                         @elseif($transaksi->status == 1) Pending
                                         @else Paid
                                         @endif
-                                    </td>
-        							<td class="text-center">
-                                        <a href="/transaksi/detail/{{$transaksi->id}}" class="btn btn-sm btn-outline-primary">
-                                            <i class="material-icons">info</i>
-                                        </a>
-                                        <a @if($transaksi->status != 2) href="/transaksi/edit/{{$transaksi->id}}" @else href="#" disabled @endif class="btn btn-sm btn-outline-primary">
-                                            <i class="material-icons">mode_edit</i>
-                                        </a>
-                                        <a href="/transaksi/destroy/{{$transaksi->id}}" class="btn btn-sm btn-outline-danger">
-                                            <i class="material-icons">delete</i>
-                                        </a>                      
                                     </td>
         						</tr>
                                 <?php $no++; ?>

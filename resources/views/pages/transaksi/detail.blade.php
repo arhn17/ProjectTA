@@ -16,11 +16,14 @@
                             <div class="card">
                                 <div class="header" style="padding-bottom: 0px">
                                     <div class="row">
-                                        <div class="col-md-10">
+                                        <div class="col-md-9">
                                             <h2>Transaction Detail</h2>
                                         </div>
-                                        <div class="col-md-2">
-                                            <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#smallModal"><i class="material-icons">select_all</i><span class="icon-name">QR Code</span></a>
+                                        <div class="col-md-3">
+                                            <div class="row text-right" style="margin-right: 15px">
+                                                <a href="#" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#smallModal"><i class="material-icons">select_all</i><span class="icon-name">QR Code</span></a>
+                                                <a href="#" class="btn btn-sm btn-primary" onclick="print_detail()"><i class="material-icons">print</i><span class="icon-name">Print</span></a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -122,18 +125,20 @@
                                                             </thead>
                                                             <tbody>
                                                                 @if($package != null)
-                                                                <?php $no = 1; ?>
+                                                                <?php $no = 1;  $test_packs = 0; $pack_ids = 0; ?>
                                                                     @foreach($package as $package)
-                                                                        <tr>
-                                                                            <td>{{$no}}</td>
-                                                                            <td>{{$package->paket->nama_paket}}</td>
-                                                                            <td>Rp.
-                                                                                @if($transaksi->pelanggan->user_id == 1) {{number_format($package->paket->tarif_normal)}}
-                                                                                @else {{number_format($package->paket->tarif_member)}}
-                                                                                @endif
-                                                                            </td>
-                                                                        </tr>
-                                                                        <?php $no++; ?>
+                                                                        @if($test_packs == 0 || $test_packs == $package->service_id || $pack_ids != $package->paket_id)
+                                                                            <tr>
+                                                                                <td>{{$no}}</td>
+                                                                                <td>{{$package->paket->nama_paket}}</td>
+                                                                                <td>Rp.
+                                                                                    @if($transaksi->pelanggan->user_id == 1) {{number_format($package->paket->tarif_normal)}}
+                                                                                    @else {{number_format($package->paket->tarif_member)}}
+                                                                                    @endif
+                                                                                </td>
+                                                                            </tr>
+                                                                            <?php $no++; $test_packs = $package->service_id; $pack_ids = $package->paket_id; ?>
+                                                                        @endif
                                                                     @endforeach
                                                                 @endif
                                                             </tbody>
@@ -176,7 +181,7 @@
 
                                         <h3>Payment</h3>
                                         <fieldset>
-                                            <div class="row clearfix">
+                                            <div class="row clearfix" id="detail_print">
                                                 <div class="body">
                                                     <div class="col-md-offset-1 col-md-10">
                                                         <div>
@@ -213,6 +218,16 @@
                                                                         <td>Telephone</td>
                                                                         <td>:</td>
                                                                         <td>{{$transaksi->pelanggan->telepon}}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Date</td>
+                                                                        <td>:</td>
+                                                                        <td>{{$transaksi->trans_date}}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Cashier</td>
+                                                                        <td>:</td>
+                                                                        <td>{{$user->name}}</td>
                                                                     </tr>
                                                                 </table>
                                                             </div>
@@ -295,12 +310,13 @@
                                                                         <td></td>
                                                                         <td class="text-right">Total Payment</td>
                                                                         <td></td>
-                                                                        <td>
+                                                                        <td><h4><b>
                                                                             @if($transaksi->diskon_id != null) 
                                                                                 Rp.{{number_format($transaksi->total - (($transaksi->total * $transaksi->diskon->nilai) / 100))}}
                                                                             @else
                                                                                 Rp.{{number_format($transaksi->total)}}
                                                                             @endif
+                                                                            </b></h4>
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
@@ -329,7 +345,7 @@
                 <h4 class="modal-title" id="smallModalLabel">Transaction's QR Code</h4>
             </div>
             <div class="modal-body">
-                {!! QrCode::size(250)->generate($transaksi->id . "" . $transaksi->pelanggan->telepon) !!}
+                {!! QrCode::size(250)->generate($transaksi->id) !!}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
@@ -337,4 +353,17 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script type="text/javascript">
+    function print_detail(){
+        var prtContent = document.getElementById("detail_print");
+        var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+        WinPrint.document.write(prtContent.innerHTML);
+        WinPrint.document.close();
+        WinPrint.focus();
+        WinPrint.print();
+        WinPrint.close();
+    }
+</script>
 @endsection
